@@ -1,0 +1,33 @@
+{% extends "index_old.html" %}
+
+
+{% block content %}
+
+
+    <div>
+    <br>
+        <p>Pobieranie wszytkich spółek</p><br>
+
+
+        <form action="dowSp">
+            <input type="submit" value="Pobierz_dane_spólki">
+        </form>
+<br>
+    </div>
+
+
+
+     <div>
+        <p>Generowanie wykresu </p><br>
+
+
+        <form action="genWyk">
+            <p>Podaj nazwe spółki oo analizy</p>
+            <input type="teskt" value="" name="spółka_do_analizy">
+            <input type="submit" value="Pobierz" >
+        </form>
+
+    </div>
+
+
+{% endblock %}
