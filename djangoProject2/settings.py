@@ -77,7 +77,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'DatabaseGielda',
-        'USER': 'posgres',
+        'USER': 'postgres',
         'PASSWORD': 'Kdixe7k6dpm',
         'HOST': 'localhost'
     }

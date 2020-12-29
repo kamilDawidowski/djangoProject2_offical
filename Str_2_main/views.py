@@ -5,6 +5,7 @@ import urllib
 from django.shortcuts import render
 from django.http import HttpResponse
 import pandas as pd
+from .models import Nazwy_spółek,Dane_spółek
 
 
 # Create your views here.
@@ -14,20 +15,18 @@ def menu(request):
     # pobieranie_gieldy()
     # Dodaj petle sprawdz czy jest
 
-    dane = pd.read_csv('C://Users//kuba2//PycharmProjects//djangoProject2//Nazwy_spółek//Spółki_1.csv', sep=',', na_values=" ")
-    k=dane;
+    dane = pd.read_csv('C://Users//kuba2//PycharmProjects//djangoProject2//Nazwy_spółek//Spółki_1.csv', sep=',',
+                       na_values=" ")
+    k = dane;
 
     dane = pd.read_csv('C://Users//kuba2//PycharmProjects//djangoProject2//Nazwy_spółek//Spółki_2.csv', sep=',',
-                    na_values=" ")
+                       na_values=" ")
     a = dane;
-
-
 
     dane = pd.read_csv('C://Users//kuba2//PycharmProjects//djangoProject2//Nazwy_spółek//Spółki_3.csv', sep=',',
 
                        na_values=" ")
     b = dane;
-
 
     dane = pd.read_csv('C://Users//kuba2//PycharmProjects//djangoProject2//Nazwy_spółek//Spółki_4.csv', sep=',',
                        na_values=" ")
@@ -50,54 +49,58 @@ def menu(request):
                        na_values=" ")
     g = dane;
 
-    all_Data= []
+    all_Data = []
     for i in range(k.shape[0]):
-        temp=k.iloc[i]
+        temp = k.iloc[i]
         all_Data.append(dict(temp))
         # all_Data.append(dict[temp])
 
     for i in range(a.shape[0]):
-        temp=a.iloc[i]
+        temp = a.iloc[i]
         all_Data.append(dict(temp))
         # all_Data.append(dict[temp])
     for i in range(b.shape[0]):
-        temp=b.iloc[i]
+        temp = b.iloc[i]
         all_Data.append(dict(temp))
         # all_Data.append(dict[temp])
     for i in range(c.shape[0]):
-        temp=c.iloc[i]
+        temp = c.iloc[i]
         all_Data.append(dict(temp))
         # all_Data.append(dict[temp])
 
-
     for i in range(d.shape[0]):
-        temp=d.iloc[i]
+        temp = d.iloc[i]
         all_Data.append(dict(temp))
         # all_Data.append(dict[temp])
 
     for i in range(e.shape[0]):
-        temp=e.iloc[i]
+        temp = e.iloc[i]
         all_Data.append(dict(temp))
         # all_Data.append(dict[temp])
     for i in range(f.shape[0]):
-        temp=f.iloc[i]
+        temp = f.iloc[i]
         all_Data.append(dict(temp))
         # all_Data.append(dict[temp])
     for i in range(g.shape[0]):
-        temp=g.iloc[i]
+        temp = g.iloc[i]
         all_Data.append(dict(temp))
         # all_Data.append(dict[temp])
 
+    context = {'data': all_Data}
+    for data in all_Data:
+        if Nazwy_spółek.objects.filter(spolka_data_name=data['Nazwa'], spolka_data_skrot=data['Symbol']).exists() == False:
+            Nazwy_spółek.objects.create(spolka_data_name=data['Nazwa'], spolka_data_skrot=data['Symbol'])
 
 
 
-    context={'data':all_Data}
 
-
-    return render(request, "Strona_2.html",context)
+    return render(request, "Strona_2.html", context)
 
 
 def odp(request):
+    labels = []
+    data = []
+
     name_spolka_do_analizy = request.GET["spółka_do_analizy"]
     name = str(szukanie(name_spolka_do_analizy))
     www = 'https://stooq.pl/q/d/l/?s=' + name + '&i=d'
@@ -111,7 +114,15 @@ def odp(request):
         temp = a.iloc[i]
         all_Data.append(dict(temp))
         print(temp)
+    print(all_Data[0])
 
+    # for data in all_Data:
+    #     Nazwy_spółek.objects.create(spolka_name=str(name_spolka_do_analizy),
+    #                                 spolka_otwarcie=data['Otwarcie'],
+    #                                 spolka_najwyzszy=data['Najwyzszy'],
+    #                                 spolka_najnizszy=data['Najnizszy'],
+    #                                 spolka_zamkniecie=data['Zamkniecie'],
+    #                                 spolka_data=data["b'Data"])
 
 
     if (name != 'None'):
