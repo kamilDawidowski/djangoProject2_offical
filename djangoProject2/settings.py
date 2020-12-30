@@ -122,3 +122,4 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'Static')
 ]
 MEDIA_URL = '/Obrazy/'
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 30000

@@ -53,6 +53,9 @@
     </canvas>
 
 
+  <canvas id="myChart2">
+
+    </canvas>
 
 
 
@@ -92,6 +95,7 @@
 <sup>2</sup> określa, w jakim stopniu oszacowany model wyjaśnia kształtowanie
 się zmiennej objaśnianej y. R
 <sup>2</sup>należy do przedziału [0,1].</h6>
+
 
 
 
@@ -185,12 +189,36 @@ a0, a1 – parametry funkcji trendu</h6>
 
         // The data for our dataset
         data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            labels: [{% for item in dane %}'{{ item.spolka_data.year }}',{% endfor %}],
             datasets: [{
-                label: 'My First dataset',
+                label: 'Kurs otwarcia ',
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
-                data: [0, 10, 5, 2, 20, 30, 45]
+                data: [{% for item in dane %}{{ item.spolka_otwarcie }},{% endfor %}]
+            }]
+        },
+
+        // Configuration options go here
+        options: {}
+    });
+
+
+</script>
+<script>
+
+    var ctx = document.getElementById('myChart2').getContext('2d');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+            labels: [{% for item in dane %}'{{ item.spolka_data.year }}',{% endfor %}],
+            datasets: [{
+                label: 'Kurs zamkniecia ',
+                backgroundColor: 'rgb(250,237,1)',
+                borderColor: 'rgb(247,252,3)',
+                data: [{% for item in dane %}{{ item.spolka_zamkniecie }},{% endfor %}]
             }]
         },
 

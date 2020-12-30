@@ -49,6 +49,7 @@
             <div class="col-6">
                 <br>
                 <br>
+
                 <form action="odp">
                     <div class="d-grid gap-2">
                         <input class="form-control form-control-lg" type="text" placeholder="Wpisz nazwę spółki"
@@ -65,6 +66,8 @@
 
 
             </div>
+
+
             <div class="col-6">
                 <br>
                 <br>
@@ -84,6 +87,9 @@
 
         </div>
     </div>
+
+<button type="button" class="btn btn-success">Odświeżanie</button>
+
 
 
     <div class="card shadow mb-4">
@@ -108,12 +114,15 @@
                     </tfoot>
 
                     <tbody>
+                    {#                    {% for i in data %}#}
                     {% for i in data %}
 
                         <tr>
+                            <td style="background-color: rgba(255, 0, 0, 0.3);">{{ i.spolka_data_skrot }}</td>
+                            <td style="background-color: rgba(0, 255, 0, 0.3);">{{ i.spolka_data_name }}</td>
 
-                            <td style="background-color: rgba(255, 0, 0, 0.3);">{{ i.Symbol }}</td>
-                            <td style="background-color: rgba(0, 255, 0, 0.3);">{{ i.Nazwa }}</td>
+                            {#                            <td style="background-color: rgba(255, 0, 0, 0.3);">{{ i.Symbol }}</td>#}
+                            {#                            <td style="background-color: rgba(0, 255, 0, 0.3);">{{ i.Nazwa }}</td>#}
 
 
                         </tr>
