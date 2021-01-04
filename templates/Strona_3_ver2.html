@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js"></script>
+
+
+    {#    Botsrtap#}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="container">
+    <div class="card mb-3">
+        <img src="{% static 'Obrazy/gpw_logo.png' %}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{ nazwa_1 }} VS {{ nazwa_2 }}</h5>
+
+            <p class="card-text">Do analizy poddana jest spóła : {{ nazwa_1 }} oraz {{ nazwa_2 }} </p>
+
+
+        </div>
+    </div>
+
+
+</div>
+
+
+<div class="container">
+
+
+    <div class="card">
+        <div class="card-body" style="background-color: rgba(255, 0, 0, 0.3);">
+            <h3 style="text-align:center; ">Wykresy</h3>
+        </div>
+    </div>
+    <div>
+
+        <div style="float: left;width: 50%">
+            <canvas id="myChart">
+
+            </canvas>
+        </div>
+        <div style="float: left;width: 50%">
+            <canvas id="myChart2">
+
+            </canvas>
+        </div>
+
+    </div>
+
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+    <div class="container">
+
+
+        <div class="card">
+            <div class="card-body" style="background-color: rgba(255, 0, 0, 0.3);">
+                <h3 style="text-align:center; ">Wykresy</h3>
+            </div>
+        </div>
+        <div>
+
+
+            <div style="float: left;width: 50%">
+                <canvas id="myChart3">
+
+                </canvas>
+            </div>
+
+            <div style="float: left;width: 50%">
+                <canvas id="myChart4">
+
+                </canvas>
+            </div>
+
+
+        </div>
+
+        <div class="card">
+            <div class="card-body" style="background-color: rgba(255, 0, 0, 0.3);">
+                <h3 style="text-align:center; ">Wykresy</h3>
+            </div>
+        </div>
+        <div>
+            <div>
+                <canvas id="myChart5">
+
+                </canvas>
+            </div>
+
+
+            <div class="card">
+                <div class="card-body" style="background-color: rgba(255, 0, 0, 0.3);">
+                    <h3 style="text-align:center; ">Dane</h3>
+                </div>
+            </div>
+
+
+            <div class="card-group">
+
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Współczynnik R<sup>2</sup></h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Współczynnik R
+                            <sup>2</sup> określa, w jakim stopniu oszacowany model wyjaśnia kształtowanie
+                            się zmiennej objaśnianej y. R
+                            <sup>2</sup>należy do przedziału [0,1].</h6>
+
+
+                        <p class="card-text">Współczynnik dla spółki:{{ nazwa }}<br>
+                            Wartość współczynnika : 0.39393
+                        </p>
+                        <a href="https://dariuszgrupa.pl/wspolczynnik-korelacji-co-to-jest/" class="card-link">Więcej
+                            informacji</a>
+                    </div>
+                </div>
+
+
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Linina Trendu</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Trend kursu akcji przyjmuje postać liniową. Linia ta
+                            zarówno
+                            normalizuje jak i uśrednia
+                            dane dotyczące cen akcji w poszczególnych okresach.
+                            Równanie trendu liniowego: Y = a0 +a1t
+                            a0, a1 – parametry funkcji trendu</h6>
+                        <p class="card-text">Linnia Trendu dla :{{ nazwa }}<br> Linnia trendu : 0.39393</p>
+                        <a href="https://www.edukacjagieldowa.pl/gieldowe-abc/analiza-techniczna/narzedzia-analizy-technicznej/linie-trendu/"
+                           class="card-link">Więcej informacji</a>
+
+                    </div>
+                </div>
+
+
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the card's
+                            content.</p>
+                        <a href="#" class="card-link">Card link</a>
+                        <a href="#" class="card-link">Another link</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card mb-3">
+                <img src="{% static 'Obrazy/tlo.png' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                        additional content.
+                        This content is a little bit longer.</p>
+
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                        additional content.
+                        This content is a little bit longer.</p>
+                </div>
+                <img src="..." class="card-img-bottom" alt="...">
+            </div>
+
+            <script>
+
+                var ctx = document.getElementById('myChart').getContext('2d');
+                var chart = new Chart(ctx, {
+                    // The type of chart we want to create
+                    type: 'line',
+
+                    // The data for our dataset
+                    data: {
+                        labels: [{% for item in dane_1 %}'{{ item.spolka_data.year }}',{% endfor %}],
+                        datasets: [{
+                            label: 'Kurs otwarcia ',
+                            backgroundColor: 'rgb(255, 99, 132)',
+                            borderColor: 'rgb(255, 99, 132)',
+                            data: [{% for item in dane_1 %}{{ item.spolka_otwarcie }}, {% endfor %}]
+                        }]
+                    },
+
+                    // Configuration options go here
+                    options: {}
+                });
+
+
+            </script>
+            <script>
+
+                var ctx = document.getElementById('myChart2').getContext('2d');
+                var chart = new Chart(ctx, {
+                    // The type of chart we want to create
+                    type: 'line',
+
+                    // The data for our dataset
+                    data: {
+                        labels: [{% for item in dane_2 %}'{{ item.spolka_data.year }}',{% endfor %}],
+                        datasets: [{
+                            label: 'Kurs zamkniecia ',
+                            backgroundColor: 'rgb(250,237,1)',
+                            borderColor: 'rgb(247,252,3)',
+                            data: [{% for item in dane_2 %}{{ item.spolka_zamkniecie }}, {% endfor %}]
+                        }]
+                    },
+
+                    // Configuration options go here
+                    options: {}
+                });
+
+
+            </script>
+            <script>
+
+                var ctx = document.getElementById('myChart3').getContext('2d');
+                var chart = new Chart(ctx, {
+                    // The type of chart we want to create
+                    type: 'line',
+
+                    // The data for our dataset
+                    data: {
+                        labels: [{% for item in dane_1 %}'{{ item.spolka_data.year }}',{% endfor %}],
+                        datasets: [{
+                            label: 'Kurs zamkniecia ',
+                            backgroundColor: 'rgb(250,237,1)',
+                            borderColor: 'rgb(247,252,3)',
+                            data: [{% for item in dane_1 %}{{ item.spolka_zamkniecie }}, {% endfor %}]
+                        }]
+                    },
+
+                    // Configuration options go here
+                    options: {}
+                });
+
+
+            </script>
+            <script>
+
+                var ctx = document.getElementById('myChart4').getContext('2d');
+                var chart = new Chart(ctx, {
+                    // The type of chart we want to create
+                    type: 'line',
+
+                    // The data for our dataset
+                    data: {
+                        labels: [{% for item in dane_2 %}'{{ item.spolka_data.year }}',{% endfor %}],
+                        datasets: [{
+                            label: 'Kurs zamkniecia ',
+                            backgroundColor: 'rgb(250,237,1)',
+                            borderColor: 'rgb(247,252,3)',
+                            data: [{% for item in dane_2 %}{{ item.spolka_zamkniecie }}, {% endfor %}]
+                        }]
+                    },
+
+                    // Configuration options go here
+                    options: {}
+                });
+
+
+            </script>
+
+
+            <script>
+                var ctx = document.getElementById('myChart5').getContext('2d');
+                var myPieChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: data,
+                    options: options
+                });
+                data = {
+                    datasets: [{
+                        data: [10, 20, 30]
+                    }],
+
+                    // These labels appear in the legend and in the tooltips when hovering different arcs
+                    labels: [
+                        'Red',
+                        'Yellow',
+                        'Blue'
+                    ]
+                };
+            </script>
+
+
+</body>
+</html>
