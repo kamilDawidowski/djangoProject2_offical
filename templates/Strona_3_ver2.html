@@ -19,7 +19,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Title</title>
 </head>
-<body>
+<body >
+
+<div>
+
+
 
 <div class="container">
     <div class="card mb-3">
@@ -36,13 +40,21 @@
 
 </div>
 
+<div class="container">
+<div class="d-grid gap-2">
+
+ <a class="btn btn-primary" href="/main/" role="button" style="width: 100%">Powrót do menu</a>
+   <br>
+</div>
+</div>
+
 
 <div class="container">
 
 
     <div class="card">
         <div class="card-body" style="background-color: rgba(255, 0, 0, 0.3);">
-            <h3 style="text-align:center; ">Wykresy</h3>
+            <h3 style="text-align:center; ">Kurs otwarcia </h3>
         </div>
     </div>
     <div>
@@ -76,7 +88,7 @@
 
         <div class="card">
             <div class="card-body" style="background-color: rgba(255, 0, 0, 0.3);">
-                <h3 style="text-align:center; ">Wykresy</h3>
+                <h3 style="text-align:center; ">Wykresy najwyższej ceny</h3>
             </div>
         </div>
         <div>
@@ -97,58 +109,37 @@
 
         </div>
 
-        <div class="card">
-            <div class="card-body" style="background-color: rgba(255, 0, 0, 0.3);">
-                <h3 style="text-align:center; ">Wykresy</h3>
-            </div>
-        </div>
-        <div>
-            <div>
-                <canvas id="myChart5">
-
-                </canvas>
-            </div>
 
 
-            <div class="card">
+            <div class="card" style="background: #87f2ec">
                 <div class="card-body" style="background-color: rgba(255, 0, 0, 0.3);">
-                    <h3 style="text-align:center; ">Dane</h3>
+                    <h3 style="text-align:center; ">Analiza </h3>
+
                 </div>
             </div>
 
+            <div class="card">
+                <div class="card-body" style="background-color: rgba(255, 0, 0, 0.3);">
+                    <h3 style="text-align:center; ">Spółka {{ nazwa_1 }}</h3>
+
+                </div>
+            </div>
 
             <div class="card-group">
 
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title">Współczynnik R<sup>2</sup></h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Współczynnik R
-                            <sup>2</sup> określa, w jakim stopniu oszacowany model wyjaśnia kształtowanie
-                            się zmiennej objaśnianej y. R
-                            <sup>2</sup>należy do przedziału [0,1].</h6>
+                        <h5 class="card-title">Średnia akcji</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Średnia arytmetyczna zbioru to suma wszystkich jego
+                            elementów podzielona przez ich ilość. Określa średnią wartość elementów danego zbioru. </h6>
 
 
-                        <p class="card-text">Współczynnik dla spółki:{{ nazwa }}<br>
-                            Wartość współczynnika : 0.39393
+                        <p class="card-text">Średnia dla spółki:{{ nazwa_1 }}<br>
+                        <h6> Wartość średniej dla akcji spółki : {{ Mx1 }}<br>
+                            {#                            Wartość średniej dla czasu : {{ My1 }}#}
+                        </h6>
+
                         </p>
-                        <a href="https://dariuszgrupa.pl/wspolczynnik-korelacji-co-to-jest/" class="card-link">Więcej
-                            informacji</a>
-                    </div>
-                </div>
-
-
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">Linina Trendu</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Trend kursu akcji przyjmuje postać liniową. Linia ta
-                            zarówno
-                            normalizuje jak i uśrednia
-                            dane dotyczące cen akcji w poszczególnych okresach.
-                            Równanie trendu liniowego: Y = a0 +a1t
-                            a0, a1 – parametry funkcji trendu</h6>
-                        <p class="card-text">Linnia Trendu dla :{{ nazwa }}<br> Linnia trendu : 0.39393</p>
-                        <a href="https://www.edukacjagieldowa.pl/gieldowe-abc/analiza-techniczna/narzedzia-analizy-technicznej/linie-trendu/"
-                           class="card-link">Więcej informacji</a>
 
                     </div>
                 </div>
@@ -156,38 +147,143 @@
 
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                            the card's
-                            content.</p>
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
+                        <h5 class="card-title">Odchylenia standardowego z próby</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Odchylenie standardowe to jedna z miar zmienności
+                            zbioru. Służy ono do estymowania o ile średnio elementy zbioru różnią się od średniej tego
+                            zbioru.</h6>
+                        <p class="card-text">Odchylenie standardowe dla :{{ nazwa }}<br>
+                        <h6> Odchylenie standardowe dla akcji : {{ Sx1 }}<br>
+                            {#                            Odchylenie standardowe dla czasu : {{ Sy1 }}#}
+                        </h6></p>
+
+
                     </div>
+                </div>
+
+
+            </div>
+
+
+            <div class="card">
+                <div class="card-body" style="background-color: rgba(255, 0, 0, 0.3);">
+                    <h3 style="text-align:center; ">Spółka {{ nazwa_2 }}</h3>
+
+                </div>
+            </div>
+
+            <div class="card-group">
+
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Średnia akcji</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Średnia arytmetyczna zbioru to suma wszystkich jego
+                            elementów podzielona przez ich ilość. Określa średnią wartość elementów danego zbioru. </h6>
+
+
+                        <p class="card-text">Średnia dla spółki:{{ nazwa_2 }}<br>
+                        <h6> Wartość średniej dla akcji spółki : {{ Mx2 }}<br>
+                            {#                            Wartość średniej dla czasu : {{ My2 }}#}
+                        </h6>
+
+                        </p>
+
+                    </div>
+                </div>
+
+
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Odchylenia standardowego z próby</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Odchylenie standardowe to jedna z miar zmienności
+                            zbioru. Służy ono do estymowania o ile średnio elementy zbioru różnią się od średniej tego
+                            zbioru.</h6>
+                        <p class="card-text">Odchylenie standardowe dla :{{ nazwa }}<br><h6>
+                        Odchylenie standardowe dla akcji : {{ Sx2 }}<br>
+                        {#                        Odchylenie standardowe dla czasu : {{ Sy2 }}#}
+                    </h6></p>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="card">
+                <div class="card-body" style="background-color: rgba(255, 0, 0, 0.3);">
+                    <h3 style="text-align:center; ">Zobrazowanie odchylenia standardowego cen akcji</h3>
+
+                </div>
+            </div>
+
+            <div id="canvas-holder" style="width:100%">
+                <canvas id="bar-chart"></canvas>
+            </div>
+
+
+            <div class="card">
+                <div class="card-body" style="background-color: rgba(255, 0, 0, 0.3);">
+                    <h3 style="text-align:center; ">Poszczególne okresy, gdzie sesja kończyła się wzrostem wrtości akcji
+                        spółki</h3>
+
                 </div>
             </div>
 
 
             <div class="card mb-3">
-                <img src="{% static 'Obrazy/tlo.png' %}" class="card-img-top" alt="...">
+                {#                <img src="{% static 'Obrazy/tlo.png' %}" class="card-img-top" alt="...">#}
+                <canvas id="myChartxd">
+
+                </canvas>
                 <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                        additional content.
-                        This content is a little bit longer.</p>
+                    <h5 class="card-title">{{ nazwa_1 }}</h5>
+                    <p class="card-text">Wykres obrazuje ile sesji kończyło się odatnio na giełdzie</p>
 
                 </div>
             </div>
+
+
+            <div class="card mb-3">
+                {#                <img src="{% static 'Obrazy/tlo.png' %}" class="card-img-top" alt="...">#}
+                <canvas id="myChartxd2">
+
+                </canvas>
+                <div class="card-body">
+                    <h5 class="card-title">{{ nazwa_2 }}</h5>
+                    <p class="card-text">Wykres obrazuje ile sesji kończyło się dodatnio na giełdzie</p>
+
+                </div>
+            </div>
+
+            <canvas id="bar-chart-grouped" width="800" height="450"></canvas>
+  <canvas id="bar-chart-grouped2" width="800" height="450"></canvas>
+            <div class="form-group">
+                <label for="sel1">Select list:</label>
+                <select class="form-control" id="sel1">
+
+                    <option name="lata1">2018-2020</option>
+                    <option name="lata2">2016-2028</option>
+                    <option name="lata3">2014-2016</option>
+                    <option name="lata4">2012-2014</option>
+
+                </select>
+            </div>
+
             <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                        additional content.
-                        This content is a little bit longer.</p>
-                </div>
-                <img src="..." class="card-img-bottom" alt="...">
-            </div>
+                <div class="card-body" style="background-color: rgba(255, 0, 0, 0.3);">
+                    <h3 style="text-align:center; ">Najwyższe kursy spólek aktualnie </h3>
 
+                </div>
+            </div>
+            <div>
+                <canvas id="myChartakt1">
+
+                </canvas>
+            </div>
+    <br>
+    <br>
+ <a class="btn btn-primary" href="/main/" role="button" style="width: 100%">Powrót do menu</a>
+    <br>
+    <br>
             <script>
 
                 var ctx = document.getElementById('myChart').getContext('2d');
@@ -199,7 +295,7 @@
                     data: {
                         labels: [{% for item in dane_1 %}'{{ item.spolka_data.year }}',{% endfor %}],
                         datasets: [{
-                            label: 'Kurs otwarcia ',
+                            label: 'Kurs otwarcia dla {{ nazwa_1 }}',
                             backgroundColor: 'rgb(255, 99, 132)',
                             borderColor: 'rgb(255, 99, 132)',
                             data: [{% for item in dane_1 %}{{ item.spolka_otwarcie }}, {% endfor %}]
@@ -223,9 +319,9 @@
                     data: {
                         labels: [{% for item in dane_2 %}'{{ item.spolka_data.year }}',{% endfor %}],
                         datasets: [{
-                            label: 'Kurs zamkniecia ',
-                            backgroundColor: 'rgb(250,237,1)',
-                            borderColor: 'rgb(247,252,3)',
+                            label: 'Kurs otwarcia dla {{ nazwa_2 }} ',
+                            backgroundColor: 'rgb(29,9,208)',
+                            borderColor: 'rgb(29,9,208)',
                             data: [{% for item in dane_2 %}{{ item.spolka_zamkniecie }}, {% endfor %}]
                         }]
                     },
@@ -247,10 +343,10 @@
                     data: {
                         labels: [{% for item in dane_1 %}'{{ item.spolka_data.year }}',{% endfor %}],
                         datasets: [{
-                            label: 'Kurs zamkniecia ',
-                            backgroundColor: 'rgb(250,237,1)',
-                            borderColor: 'rgb(247,252,3)',
-                            data: [{% for item in dane_1 %}{{ item.spolka_zamkniecie }}, {% endfor %}]
+                            label: 'Kurs Najwyzszy dla {{ nazwa_1 }} ',
+                            backgroundColor: 'rgb(255, 99, 132)',
+                            borderColor: 'rgb(255, 99, 132)',
+                            data: [{% for item in dane_1 %}{{ item.spolka_najwyzszy }}, {% endfor %}]
                         }]
                     },
 
@@ -271,10 +367,10 @@
                     data: {
                         labels: [{% for item in dane_2 %}'{{ item.spolka_data.year }}',{% endfor %}],
                         datasets: [{
-                            label: 'Kurs zamkniecia ',
-                            backgroundColor: 'rgb(250,237,1)',
-                            borderColor: 'rgb(247,252,3)',
-                            data: [{% for item in dane_2 %}{{ item.spolka_zamkniecie }}, {% endfor %}]
+                            label: 'Kurs Najwyzszy dla {{ nazwa_2 }} ',
+                            backgroundColor: 'rgb(29,9,208)',
+                            borderColor: 'rgb(29,9,208)',
+                            data: [{% for item in dane_2 %}{{ item.spolka_najwyzszy }}, {% endfor %}]
                         }]
                     },
 
@@ -307,6 +403,207 @@
                 };
             </script>
 
+            <script>
+                var ctx = document.getElementById('myChartxd').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [{% for item in dane_1 %}'{{ item.spolka_data.year }}',{% endfor %}],
+                        datasets: [{
+                            label: 'Kurs   ',
 
-</body>
+                            backgroundColor: [
+                                {% for item in dane_1 %} getRandomColor2({{item.spolka_otwarcie}}, {{item.spolka_zamkniecie}}),{% endfor %}],
+
+                            data: [{% for item in dane_1 %}{{ item.spolka_zamkniecie }}, {% endfor %}]
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+
+                function getRandomColor() {
+                    var letters = '0123456789ABCDEF'.split('');
+                    var color = '#';
+                    for (var i = 0; i < 6; i++) {
+                        color += letters[Math.floor(Math.random() * 16)];
+                    }
+                    return color;
+                }
+
+                function getRandomColor2(itemO, itemZ) {
+                    var czerwony = 'rgb(221,8,69)'
+                    var zielony = 'rgb(28,119,21)'
+                    if (itemO - itemZ > 0)
+                        return czerwony
+                    else
+                        return zielony
+
+
+                }
+            </script>
+            <script>
+                var ctx = document.getElementById('myChartxd2').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [{% for item in dane_2 %}'{{ item.spolka_data.year }}',{% endfor %}],
+                        datasets: [{
+                            label: 'Kurs  ',
+
+                            backgroundColor: [
+                                {% for item in dane_2 %} getRandomColor2({{item.spolka_otwarcie}}, {{item.spolka_zamkniecie}}),{% endfor %}],
+
+                            data: [{% for item in dane_2 %}{{ item.spolka_zamkniecie }}, {% endfor %}]
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+
+                function getRandomColor() {
+                    var letters = '0123456789ABCDEF'.split('');
+                    var color = '#';
+                    for (var i = 0; i < 6; i++) {
+                        color += letters[Math.floor(Math.random() * 16)];
+                    }
+                    return color;
+                }
+
+                function getRandomColor2(itemO, itemZ) {
+                    var czerwony = 'rgb(221,8,69)'
+                    var zielony = 'rgb(28,119,21)'
+                    if (itemO - itemZ > 0)
+                        return czerwony
+                    else
+                        return zielony
+
+
+                }
+            </script>
+            <script>
+                new Chart(document.getElementById("bar-chart"), {
+                    type: 'bar',
+                    data: {
+                        labels: ["{{nazwa_1}}", "{{nazwa_2}}"],
+                        datasets: [
+                            {
+
+                                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                                data: [{{Sx1}}, {{Sx2}}]
+                            }
+                        ]
+                    },
+                    options: {
+                        legend: {display: false},
+                        title: {
+                            display: true,
+                            text: 'Zobrazowanie Odchylenia standardowego cen akcji'
+                        }
+                    }
+                });
+            </script>
+            <script>
+                new Chart(document.getElementById("bar-chart-grouped"), {
+                    type: 'bar',
+                    data: {
+                        labels: ["2020","2019","2018"],
+                        datasets: [
+                            {
+                                label: "{{nazwa_1}}",
+                                backgroundColor: "#278a0b",
+                                data: [{{ww}},{{zm}},{{zm8}}]
+                            }, {
+                                label: "{{nazwa_2}}",
+                                backgroundColor: "#9013c4",
+                                data: [{{ww2}},{{zm2}},{{zm28}}]
+                            }
+                        ]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Wzrost  cen akcji dla 3 najblizszych lat'
+                        }
+                    }
+                });
+            </script>
+
+
+            <script>
+
+                var ctx = document.getElementById('myChartakt1').getContext('2d');
+                var chart = new Chart(ctx, {
+                    // The type of chart we want to create
+                    type: 'line',
+
+                    // The data for our dataset
+                    data: {
+                        labels: [{% for item in dane_akt_1 %}'{{ item.spolka_data.month }}',{% endfor %}],
+                        datasets: [{
+                            label: 'Kurs Najwyzszy dla {{ nazwa_1 }} ',
+
+                            borderColor: 'rgb(29,9,208)',
+                            data: [{% for item in dane_akt_1 %}{{ item.spolka_najwyzszy }}, {% endfor %}]
+                        },
+                            {
+                                label: 'Kurs Najwyzszy dla {{ nazwa_1 }} ',
+
+                                borderColor: 'rgb(102,208,9)',
+                                data: [{% for item in dane_akt_2 %}{{ item.spolka_najwyzszy }}, {% endfor %}]
+                            }
+                        ]
+                    },
+
+                    // Configuration options go here
+                    options: {}
+                });
+
+
+            </script>
+  <script>
+                new Chart(document.getElementById("bar-chart-grouped2"), {
+                    type: 'bar',
+                    data: {
+                        labels: ["2020","2019","2018","2017","2016","2015","2014","2013","2012","2011"],
+                        datasets: [
+                            {
+                                label: "{{nazwa_1}}",
+                                backgroundColor: "#278a0b",
+                                {#data: [{{n1}},{{n2}},{{n3}}]#}
+                               data: [{% for item in lis1 %}{{ item }},{% endfor %}]
+                            },
+                             {
+                                label: "{{nazwa_2}}",
+                                backgroundColor: "#991b66",
+                                {#data: [{{n1}},{{n2}},{{n3}}]#}
+                               data: [{% for item in lis2 %}{{ item }},{% endfor %}]
+                            },
+                        ]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Wzrost  cen akcji dla 10 lat'
+                        }
+                    }
+                });
+            </script>
+
+
+
 </html>

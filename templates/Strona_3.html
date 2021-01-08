@@ -38,20 +38,45 @@
 
 
 <div class="container">
-
+        <br>
+        <br>
+ <a class="btn btn-primary" href="/main/" role="button" style="width: 100%">Powrót do menu</a>
+<br>
+<br>
+<form action="menu">
+<input class="btn btn-primary" type="submit" value="Dodaj spółke do ulubionych">
+</form>
+        <br>
+        <br>
 
 
 <div class="card">
-  <div class="card-body" style="background-color: rgba(255, 0, 0, 0.3);">
+  <div class="card-body" style="background-color: rgb(138,178,205);">
       <h3 style="text-align:center; ">Wykresy</h3>
   </div>
 </div>
+
+
+            <div class="card">
+            <div class="card-body" style="background-color: rgba(255, 0, 0, 0.3);">
+                <h3 style="text-align:center; ">Wykresy Otwarcia</h3>
+            </div>
+        </div>
+        <div>
+
+
 
 
     <canvas id="myChart">
 
     </canvas>
 
+        <div class="card">
+            <div class="card-body" style="background-color: rgba(255, 0, 0, 0.3);">
+                <h3 style="text-align:center; ">Wykres Zamknięcia</h3>
+            </div>
+        </div>
+        <div>
 
   <canvas id="myChart2">
 
@@ -64,103 +89,78 @@
 
 
 
+            <div class="card" style="background: #87f2ec">
+                <div class="card-body" style="background-color: rgba(255, 0, 0, 0.3);">
+                    <h3 style="text-align:center; ">Analiza </h3>
+
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body" style="background-color: rgba(255, 0, 0, 0.3);">
+                    <h3 style="text-align:center; ">Spółka {{ nazwa }}</h3>
+
+                </div>
+            </div>
+
+            <div class="card-group">
+
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Średnia akcji</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Średnia arytmetyczna zbioru to suma wszystkich jego
+                            elementów podzielona przez ich ilość. Określa średnią wartość elementów danego zbioru. </h6>
 
 
+                        <p class="card-text">Średnia dla spółki:{{ nazwa }}<br>
+                        <h6> Wartość średniej dla akcji spółki : {{ Mx1 }}<br>
+                            {#                            Wartość średniej dla czasu : {{ My1 }}#}
+                        </h6>
+
+                        </p>
+
+                    </div>
+                </div>
 
 
-</div>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Odchylenia standardowego z próby</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Odchylenie standardowe to jedna z miar zmienności
+                            zbioru. Służy ono do estymowania o ile średnio elementy zbioru różnią się od średniej tego
+                            zbioru.</h6>
+                        <p class="card-text">Odchylenie standardowe dla :{{ nazwa }}<br>
+                        <h6> Odchylenie standardowe dla akcji : {{ Sx1 }}<br>
+                            {#                            Odchylenie standardowe dla czasu : {{ Sy1 }}#}
+                        </h6></p>
 
+
+                    </div>
+                </div>
+
+
+            </div>
 
 
 
 <div class="card">
   <div class="card-body" style="background-color: rgba(255, 0, 0, 0.3);">
-      <h3 style="text-align:center; ">Dane</h3>
-  </div>
-</div>
-<div class="card-group">
-
-<div class="card" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">Współczynnik R<sup>2</sup></h5>
-    <h6 class="card-subtitle mb-2 text-muted">Współczynnik R
-<sup>2</sup> określa, w jakim stopniu oszacowany model wyjaśnia kształtowanie
-się zmiennej objaśnianej y. R
-<sup>2</sup>należy do przedziału [0,1].</h6>
-
-
-
-
-    <p class="card-text">Współczynnik dla spółki:{{ nazwa }}<br>
-        Wartość współczynnika : 0.39393
-</p>
-    <a href="https://dariuszgrupa.pl/wspolczynnik-korelacji-co-to-jest/" class="card-link">Więcej informacji</a>
+      <h3 style="text-align:center; ">Dane dla 10 lat</h3>
   </div>
 </div>
 
+  <canvas id="bar-chart-grouped" width="800" height="450"></canvas>
 
 
 
-
-    <div class="card" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">Linina Trendu</h5>
-    <h6 class="card-subtitle mb-2 text-muted">Trend kursu akcji przyjmuje postać liniową. Linia ta zarówno normalizuje jak i uśrednia
-dane dotyczące cen akcji w poszczególnych okresach.
-Równanie trendu liniowego: Y = a0 +a1t
-a0, a1 – parametry funkcji trendu</h6>
-    <p class="card-text">Linnia Trendu dla :{{ nazwa }}<br> Linnia trendu  : 0.39393</p>
-    <a href="https://www.edukacjagieldowa.pl/gieldowe-abc/analiza-techniczna/narzedzia-analizy-technicznej/linie-trendu/" class="card-link">Więcej informacji</a>
-
-  </div>
-</div>
-
-
-    <div class="card" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
-  </div>
-</div>
-</div>
-
-
-
-
-
-
-
-
-
-
-<div class="card mb-3">
-  <img src="{% static 'Obrazy/tlo.png' %}" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-
-  </div>
-</div>
 <div class="card">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+  <div class="card-body" style="background-color: rgba(255, 0, 0, 0.3);">
+      <h3 style="text-align:center; ">Dane dla 3 lat </h3>
   </div>
-  <img src="..." class="card-img-bottom" alt="...">
 </div>
 
 
+<canvas id="pie-chart" width="800" height="450"></canvas>
 
 
 
@@ -168,6 +168,188 @@ a0, a1 – parametry funkcji trendu</h6>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
+
+{#<div class="card-group">#}
+{##}
+{#<div class="card" style="width: 18rem;">#}
+{#  <div class="card-body">#}
+{#    <h5 class="card-title">Współczynnik R<sup>2</sup></h5>#}
+{#    <h6 class="card-subtitle mb-2 text-muted">Współczynnik R#}
+{#<sup>2</sup> określa, w jakim stopniu oszacowany model wyjaśnia kształtowanie#}
+{#się zmiennej objaśnianej y. R#}
+{#<sup>2</sup>należy do przedziału [0,1].</h6>#}
+{##}
+{##}
+{##}
+{##}
+{#    <p class="card-text">Współczynnik dla spółki:{{ nazwa }}<br>#}
+{#        Wartość współczynnika : 0.39393#}
+{#</p>#}
+{#    <a href="https://dariuszgrupa.pl/wspolczynnik-korelacji-co-to-jest/" class="card-link">Więcej informacji</a>#}
+{#  </div>#}
+{#</div>#}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{##}
+{##}
+{##}
+{##}
+{##}
+{##}
+{##}
+{#    <div class="card" style="width: 18rem;">#}
+{#  <div class="card-body">#}
+{#    <h5 class="card-title">Linina Trendu</h5>#}
+{#    <h6 class="card-subtitle mb-2 text-muted">Trend kursu akcji przyjmuje postać liniową. Linia ta zarówno normalizuje jak i uśrednia#}
+{#dane dotyczące cen akcji w poszczególnych okresach.#}
+{#Równanie trendu liniowego: Y = a0 +a1t#}
+{#a0, a1 – parametry funkcji trendu</h6>#}
+{#    <p class="card-text">Linnia Trendu dla :{{ nazwa }}<br> Linnia trendu  : 0.39393</p>#}
+{#    <a href="https://www.edukacjagieldowa.pl/gieldowe-abc/analiza-techniczna/narzedzia-analizy-technicznej/linie-trendu/" class="card-link">Więcej informacji</a>#}
+{##}
+{#  </div>#}
+{#</div>#}
+{##}
+{##}
+{#    <div class="card" style="width: 18rem;">#}
+{#  <div class="card-body">#}
+{#    <h5 class="card-title">Card title</h5>#}
+{#    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>#}
+{#    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>#}
+{#    <a href="#" class="card-link">Card link</a>#}
+{#    <a href="#" class="card-link">Another link</a>#}
+{#  </div>#}
+{#</div>#}
+{#</div>#}
+
+
+
+
+
+
+
+
+
+{##}
+{#<div class="card mb-3">#}
+{#  <img src="{% static 'Obrazy/tlo.png' %}" class="card-img-top" alt="...">#}
+{#  <div class="card-body">#}
+{#    <h5 class="card-title">Card title</h5>#}
+{#    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>#}
+{##}
+{#  </div>#}
+{#</div>#}
+        <br>
+        <br>
+ <a class="btn btn-primary" href="/main/" role="button" style="width: 100%">Powrót do menu</a>
+        <br>
+        <br>
+
+
+        <script>
+new Chart(document.getElementById("pie-chart"), {
+    type: 'pie',
+    data: {
+      labels:  ["2020","2019","2018"],
+      datasets: [{
+        label: "Wzrosty cen akcji",
+        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+        data: [{{n1}},{{n2}},{{n3}}]
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: "Akcje "
+      }
+    }
+});
+</script>
+
+
+
+
+
+
+  <script>
+                new Chart(document.getElementById("bar-chart-grouped"), {
+                    type: 'bar',
+                    data: {
+                        labels: ["2020","2019","2018","2017","2016","2015","2014","2013","2012","2011"],
+                        datasets: [
+                            {
+                                label: "{{nazwa}}",
+                                backgroundColor: "#278a0b",
+                                {#data: [{{n1}},{{n2}},{{n3}}]#}
+                               data: [{% for item in lista %}{{ item }},{% endfor %}]
+                            },
+                        ]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Wzrost  cen akcji'
+                        }
+                    }
+                });
+            </script>
 
 
 
@@ -217,7 +399,7 @@ a0, a1 – parametry funkcji trendu</h6>
             datasets: [{
                 label: 'Kurs zamkniecia ',
                 backgroundColor: 'rgb(250,237,1)',
-                borderColor: 'rgb(247,252,3)',
+                borderColor: 'rgb(250,237,1)',
                 data: [{% for item in dane %}{{ item.spolka_zamkniecie }},{% endfor %}]
             }]
         },
@@ -228,7 +410,6 @@ a0, a1 – parametry funkcji trendu</h6>
 
 
 </script>
-
 
 </body>
 </html>

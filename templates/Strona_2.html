@@ -52,9 +52,9 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link active" aria-current="page" href="#">Strona 1</a>
-        <a class="nav-link" href="#">Kontakt</a>
-        <a class="nav-link" href="#">GPW</a>
+        <a class="nav-link active" aria-current="page" href="/main">Strona 1</a>
+        <a class="nav-link" href="https://wcy.wat.edu.pl/">Kontakt</a>
+        <a class="nav-link" href="https://www.gpw.pl/">GPW</a>
 
       </div>
     </div>
@@ -129,7 +129,32 @@
 
 
                 {% endif %}
+<table class="table">
+  <thead>
+    <tr>
 
+      <th scope="col">Symbol</th>
+      <th scope="col">Nazwa</th>
+
+    </tr>
+  </thead>
+  <tbody>
+            {% for i in top %}
+
+                        <tr>
+                            <td style="background-color: rgba(255, 0, 0, 0.3);">{{ i.popular_skrot }}</td>
+                            <td style="background-color: rgba(0, 255, 0, 0.3);">{{ i.popular_name }}</td>
+
+                            {#                            <td style="background-color: rgba(255, 0, 0, 0.3);">{{ i.Symbol }}</td>#}
+                            {#                            <td style="background-color: rgba(0, 255, 0, 0.3);">{{ i.Nazwa }}</td>#}
+
+
+                        </tr>
+
+
+                    {% endfor %}
+  </tbody>
+</table>
 
             </div>
 

@@ -20,4 +20,15 @@ class Dane_spółek(models.Model):
     spolka_data = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return str(self.spolka_name)+"____"+str(self.spolka_data)
+        return str(self.spolka_name) + "____" + str(self.spolka_data)
+
+    def getyear(self):
+        return self.spolka_data.year
+
+
+class Popular(models.Model):
+    popular_name = models.CharField(max_length=15)
+    popular_skrot = models.CharField(max_length=15)
+
+    def __str__(self):
+        return self.popular_name

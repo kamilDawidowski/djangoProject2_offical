@@ -2,10 +2,14 @@ import csv
 import os
 import urllib
 
+from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render
 from django.http import HttpResponse
 import pandas as pd
-from .models import Nazwy_spółek, Dane_spółek
+from .models import Nazwy_spółek, Dane_spółek, Popular
+from math import sqrt
+from datetime import date
+from django.db.models import Sum
 
 
 # Create your views here.
@@ -24,7 +28,17 @@ def menu(request):
                                        spolka_data_skrot=data['Symbol']).exists() == False:
             Nazwy_spółek.objects.create(spolka_data_name=data['Nazwa'], spolka_data_skrot=data['Symbol'])
     baza = Nazwy_spółek.objects.all()
-    baza = {'data': baza, }
+
+    vote_count = Popular.objects.count()
+    if (vote_count < 2):
+        Popular.objects.create(popular_name="dddd", popular_skrot="ddd")
+
+    top = Popular.objects.all()
+
+    print(vote_count)
+
+    baza = {'data': baza,
+            'top': top}
 
     return render(request, "Strona_2.html", baza)
 
@@ -34,54 +48,53 @@ def odp2(request):
 
     name_spolka_do_analizy_ver2 = request.GET["spółka_do_analizy_ver2"]
 
-
-
-    print(str(name_spolka_do_analizy_ver1))
-    print(str(name_spolka_do_analizy_ver2))
-
     name2 = str(szukanie(name_spolka_do_analizy_ver2))
     name1 = str(szukanie(name_spolka_do_analizy_ver1))
 
-    print(name1)
-    print(name2)
-
-    www_ver1 = 'https://stooq.pl/q/d/l/?s=' + name1 + '&i=d'
-    www_ver2 = 'https://stooq.pl/q/d/l/?s=' + name2 + '&i=d'
-
-    odp1 = download(www_ver1, name1)
-    odp2 = download(www_ver2, name2)
-
-    dane1 = pd.read_csv(odp1, sep=',',
-                        na_values=" ")
-    dane2 = pd.read_csv(odp2, sep=',',
-                        na_values=" ")
-
-    a = dane1;
-    b = dane2;
-
-    all_Data1 = []
-    all_Data2 = []
-
-    for i in range(a.shape[0]):
-        temp = a.iloc[i]
-        all_Data1.append(dict(temp))
-
-    for i in range(b.shape[0]):
-        temp = b.iloc[i]
-        all_Data2.append(dict(temp))
-
-    if (name1 or name2 != 'None'):
+    if (name1 != 'None'):
+        flaga = True
+    else:
+        flaga = False
+    if (name2 != 'None'):
         flaga = True
     else:
         flaga = False
 
-    baza = Nazwy_spółek.objects.all()
+    if flaga == True:
 
+        www_ver1 = 'https://stooq.pl/q/d/l/?s=' + name1 + '&i=d'
+        www_ver2 = 'https://stooq.pl/q/d/l/?s=' + name2 + '&i=d'
+
+        odp1 = download(www_ver1, name1)
+        odp2 = download(www_ver2, name2)
+
+        dane1 = pd.read_csv(odp1, sep=',',
+                            na_values=" ").dropna()
+        dane2 = pd.read_csv(odp2, sep=',',
+                            na_values=" ").dropna()
+
+        a = dane1;
+        b = dane2;
+
+        all_Data1 = []
+        all_Data2 = []
+
+        for i in range(a.shape[0]):
+            temp = a.iloc[i]
+            all_Data1.append(dict(temp))
+
+        for i in range(b.shape[0]):
+            temp = b.iloc[i]
+            all_Data2.append(dict(temp))
+
+    baza = Nazwy_spółek.objects.all()
+    top = Popular.objects.all()
     context = {
         'flaga': flaga,
         'data': baza,
         'name1': name1,
         'name2': name2,
+        'top': top,
 
     }
     if (flaga == True):
@@ -110,16 +123,135 @@ def odp2(request):
                                            spolka_zamkniecie=data['Zamkniecie'],
                                            spolka_data=data["b'Data"])
 
-
-
         dane_1 = Dane_spółek.objects.all().filter(spolka_name=ver1)
         dane_2 = Dane_spółek.objects.all().filter(spolka_name=ver2)
+        # /////////////////////
+        Mx1 = srednia(dane1['Otwarcie'])
+        My1 = timesrednia(len(dane1))
+
+        # My1 = srednia(dane1)
+
+        Mx2 = srednia(dane2['Otwarcie'])
+        My2 = timesrednia(len(dane2))
+
+        # My1 = srednia(dane1)
+
+        Sx1 = odchylenie(dane1['Otwarcie'], Mx1)
+        Sy1 = odchylenieczas(len(dane1), My1)
+        Sx2 = odchylenie(dane2['Otwarcie'], Mx2)
+        Sy2 = odchylenieczas(len(dane2), My2)
+
+        # n = len(dane1['Otwarcie'])
+        # vr = pd.DataFrame(dane1[:])
+        # vry2 = sumowanie2(len(dane1))
+        # vrxy = sumowanie(len(dane1), dane1['Otwarcie'])
+        # vrx2 = dane1['Otwarcie'] * dane1['Otwarcie']
+        # sumx = dane1['Otwarcie'].sum()
+
+        today = date.today()
+
+        k = 2020;
+        pusta_lista = []
+        for i in range(10):
+            str(k)
+            dane_x = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year=k)
+            k = int(k - 1);
+            sumx = dane_x.count()
+            opx = dane_x.aggregate(Sum('spolka_najwyzszy'))
+            op2x = dane_x.aggregate(Sum('spolka_najnizszy'))
+            ost = (opx['spolka_najwyzszy__sum'] - op2x['spolka_najnizszy__sum']) / sumx
+            pusta_lista.append(ost)
+        print(pusta_lista)
+
+        w = 2020
+
+        pusta_lista2 = []
+        for i in range(10):
+            str(w)
+            dane_x = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year=k)
+            w = int(w - 1);
+            sumx = dane_x.count()
+            opx = dane_x.aggregate(Sum('spolka_najwyzszy'))
+            op2x = dane_x.aggregate(Sum('spolka_najnizszy'))
+            ost = (opx['spolka_najwyzszy__sum'] - op2x['spolka_najnizszy__sum']) / sumx
+            pusta_lista2.append(ost)
+
+        dane_akt_1 = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year=today.year - 1)
+        dane_akt_2 = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year=today.year - 1)
+
+        dane_2020 = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year='2020')
+        dane_2019 = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year='2019')
+        dane_2018 = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year='2018')
+
+        dane_2020_2 = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year='2020')
+        dane_2019_2 = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year='2019')
+        dane_2018_2 = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year='2018')
+
+        sum2020 = dane_2020.count()
+        op2020 = dane_2020.aggregate(Sum('spolka_najwyzszy'))
+        op20202 = dane_2020.aggregate(Sum('spolka_najnizszy'))
+        ost = (op2020['spolka_najwyzszy__sum'] - op20202['spolka_najnizszy__sum']) / sum2020
+
+        sum20201 = dane_2020_2.count()
+        op2020v = dane_2020_2.aggregate(Sum('spolka_najwyzszy'))
+        op22020v = dane_2020_2.aggregate(Sum('spolka_najnizszy'))
+        ost1 = (op2020v['spolka_najwyzszy__sum'] - op22020v['spolka_najnizszy__sum']) / sum20201
+
+        sum1 = dane_2019.count()
+        op1 = dane_2019.aggregate(Sum('spolka_najwyzszy'))
+        op2 = dane_2019.aggregate(Sum('spolka_najnizszy'))
+        k = (op1['spolka_najwyzszy__sum'] - op2['spolka_najnizszy__sum']) / sum1
+        print(k)
+
+        sum12 = dane_2019_2.count()
+        op12 = dane_2019_2.aggregate(Sum('spolka_najwyzszy'))
+        op22 = dane_2019_2.aggregate(Sum('spolka_najnizszy'))
+        w = (op12['spolka_najwyzszy__sum'] - op22['spolka_najnizszy__sum']) / sum12
+        print(w)
+
+        sum8 = dane_2018.count()
+        op8 = dane_2018.aggregate(Sum('spolka_najwyzszy'))
+        op81 = dane_2018.aggregate(Sum('spolka_najnizszy'))
+        k8 = (op8['spolka_najwyzszy__sum'] - op81['spolka_najnizszy__sum']) / sum8
+        print(k8)
+
+        sum82 = dane_2018_2.count()
+        op82 = dane_2018_2.aggregate(Sum('spolka_najwyzszy'))
+        op821 = dane_2018_2.aggregate(Sum('spolka_najnizszy'))
+        w8 = (op82['spolka_najwyzszy__sum'] - op821['spolka_najnizszy__sum']) / sum82
+        print(w8)
 
         dane2 = {
             'dane_1': dane_1,
             'dane_2': dane_2,
             'nazwa_1': name1,
             'nazwa_2': name2,
+            'Mx1': Mx1,
+            'Mx2': Mx2,
+            'My1': My1,
+            'My2': My2,
+            'Sx1': Sx1,
+            'Sx2': Sx2,
+            'Sy1': Sy1,
+            'Sy2': Sy2,
+            'dane_2020': dane_2020,
+            'dane_2019': dane_2019,
+            'dane_2018': dane_2018,
+            'dane_2020_2': dane_2020_2,
+            'dane_2019_2': dane_2019_2,
+            'dane_2018_2': dane_2018_2,
+            'zm': k,
+            'zm2': w,
+            'zm8': k8,
+            'zm28': w8,
+            'ww': ost,
+            'ww2': ost1,
+            'lis1': pusta_lista,
+            'lis2': pusta_lista2,
+
+            'dane_akt_1': dane_akt_1,
+            'dane_akt_2': dane_akt_2,
+
         }
 
         # dane = Dane_spółek.objects.all()
@@ -129,16 +261,23 @@ def odp2(request):
         return render(request, "Strona_2.html", context=context)
 
 
-
-
-
 def odp(request):
     name_spolka_do_analizy = request.GET["spółka_do_analizy"]
     name = str(szukanie(name_spolka_do_analizy))
     www = 'https://stooq.pl/q/d/l/?s=' + name + '&i=d'
     odp = download(www, name)
-    dane = pd.read_csv(odp, sep=',',
-                       na_values=" ")
+
+    dane = pd.read_csv(odp).dropna()
+    dane.rename(columns={'Wolumen\\r': 'Wolumen'}, inplace=True)
+
+    # for index, row in dane.iterrows():
+    #     if row['Wolumen'].str.find(sub)==True:
+    #         print(row['Wolumen'])
+    #
+    # print(dane.head(82))
+    # return render(request, "Strona_2.html")
+    zam = dane;
+
     a = dane;
 
     all_Data = []
@@ -151,40 +290,86 @@ def odp(request):
     else:
         flaga = False
     baza = Nazwy_spółek.objects.all()
-
+    top = Popular.objects.all()
     context = {
         'flaga': flaga,
         'data': baza,
         'name': name,
-
+        'top': top,
     }
 
     # Gdy nie ma pustej listy to tworzony jest do bazy danych nowy projekt
     if (flaga == True):
         del all_Data[-1]
 
-        k = Nazwy_spółek.objects.get(spolka_data_skrot=name)
+        nazwa = Nazwy_spółek.objects.get(spolka_data_skrot=name)
 
         for data in all_Data:
-            if Dane_spółek.objects.filter(spolka_name=k,
+            if Dane_spółek.objects.filter(spolka_name=nazwa,
                                           spolka_data=data["b'Data"]).exists() == False:
-                Dane_spółek.objects.create(spolka_name=k,
+                Dane_spółek.objects.create(spolka_name=nazwa,
                                            spolka_otwarcie=data['Otwarcie'],
                                            spolka_najwyzszy=data['Najwyzszy'],
                                            spolka_najnizszy=data['Najnizszy'],
                                            spolka_zamkniecie=data['Zamkniecie'],
                                            spolka_data=data["b'Data"])
 
-        dane = Dane_spółek.objects.all().filter(spolka_name=k)
+        dane = Dane_spółek.objects.all().filter(spolka_name=nazwa)
+
+        dane_2020 = Dane_spółek.objects.all().filter(spolka_name=nazwa, spolka_data__year='2020')
+        dane_2019 = Dane_spółek.objects.all().filter(spolka_name=nazwa, spolka_data__year='2019')
+        dane_2018 = Dane_spółek.objects.all().filter(spolka_name=nazwa, spolka_data__year='2018')
+
+        k = 2020;
+        pusta_lista = []
+        for i in range(10):
+            str(k)
+            dane_x = Dane_spółek.objects.all().filter(spolka_name=nazwa, spolka_data__year=k)
+            k = int(k - 1);
+            sumx = dane_x.count()
+            opx = dane_x.aggregate(Sum('spolka_najwyzszy'))
+            op2x = dane_x.aggregate(Sum('spolka_najnizszy'))
+            ost = (opx['spolka_najwyzszy__sum'] - op2x['spolka_najnizszy__sum']) / sumx
+            pusta_lista.append(ost)
+        print(pusta_lista)
+
+        sum2020 = dane_2020.count()
+        op2020 = dane_2020.aggregate(Sum('spolka_najwyzszy'))
+        op20202 = dane_2020.aggregate(Sum('spolka_najnizszy'))
+        ost = (op2020['spolka_najwyzszy__sum'] - op20202['spolka_najnizszy__sum']) / sum2020
+
+        sum1 = dane_2019.count()
+        op1 = dane_2019.aggregate(Sum('spolka_najwyzszy'))
+        op2 = dane_2019.aggregate(Sum('spolka_najnizszy'))
+        k = (op1['spolka_najwyzszy__sum'] - op2['spolka_najnizszy__sum']) / sum1
+        print(k)
+
+        sum8 = dane_2018.count()
+        op8 = dane_2018.aggregate(Sum('spolka_najwyzszy'))
+        op81 = dane_2018.aggregate(Sum('spolka_najnizszy'))
+        k8 = (op8['spolka_najwyzszy__sum'] - op81['spolka_najnizszy__sum']) / sum8
+        print(k8)
+
+        Mx1 = srednia(zam['Otwarcie'])
+
+        Sx1 = odchylenie(zam['Otwarcie'], Mx1)
 
         dane2 = {
             'dane': dane,
             'nazwa': name,
+            'Mx1': Mx1,
+            'Sx1': Sx1,
+            'n1': ost,
+            'n2': k,
+            'n3': k8,
+            'lista': pusta_lista,
+
         }
 
         # dane = Dane_spółek.objects.all()
 
         return render(request, "Strona_3.html", dane2)
+
     else:
         return render(request, "Strona_2.html", context=context)
 
@@ -300,3 +485,50 @@ def download_data_name(all_Data):
         all_Data.append(dict(temp))
         # all_Data.append(dict[temp])
     return all_Data
+
+
+def srednia(zbior):
+    return float(zbior.sum()) / len(zbior)
+
+
+def timesrednia(zbior):
+    suma = 0
+    index = 0
+    for i in range(zbior):
+        index += 1
+        suma += index
+
+    suma = suma / zbior
+    return suma
+
+
+def odchylenie(zbior, srednia):
+    licznik = 0
+    for elem in zbior:
+        licznik += (elem - srednia) * (elem - srednia)
+    return sqrt(licznik / (len(zbior) - 1))
+
+
+def odchylenieczas(zbior, srednia):
+    licznik = 0
+    for elem in range(zbior):
+        licznik += (elem - srednia) * (elem - srednia)
+    return sqrt(licznik / (zbior - 1))
+
+
+def sumowanie(ilosc, zbior):
+    licznik = 0
+    index = 0
+    for elem in zbior:
+        index += index + 1
+        licznik += elem * index
+        print(licznik)
+    return int(licznik)
+
+
+def sumowanie2(zbior):
+    licznik = 0
+
+    for elem in range(zbior):
+        licznik += elem * elem
+    return int(licznik)
