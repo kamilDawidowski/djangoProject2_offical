@@ -21,11 +21,8 @@ def likeDane(request):
         w = Nazwy_spółek.objects.filter(spolka_data_skrot=k)
         h=w[0]
         print(h)
-        Popular.objects.create(popular_name=h, popular_skrot=k)
-        # z=str(w)
-        # print(z)
-        vote_count = Popular.objects.count()
 
+        vote_count = Popular.objects.count()
         if (vote_count <= 3):
             print("Przepełenienie brak ")
         else:
@@ -35,9 +32,18 @@ def likeDane(request):
                 if k == 0:
                     print("too")
                     print(i)
-                    # i.delete();
+                    print(i)
+                    i.delete();
                     k = k + 1
                     print("Obiket został usunięty")
+
+
+        Popular.objects.create(popular_name=h, popular_skrot=k)
+        # z=str(w)
+        # print(z)
+        # vote_count = Popular.objects.count()
+
+
         print(Popular.objects.all())
 
         # z = w['spolka_data_name']
@@ -194,76 +200,313 @@ def odp2(request):
 
         today = date.today()
 
-        k = 2020;
-        pusta_lista = []
-        for i in range(10):
-            str(k)
-            dane_x = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year=k)
-            k = int(k - 1);
-            sumx = dane_x.count()
-            opx = dane_x.aggregate(Sum('spolka_najwyzszy'))
-            op2x = dane_x.aggregate(Sum('spolka_najnizszy'))
-            ost = (opx['spolka_najwyzszy__sum'] - op2x['spolka_najnizszy__sum']) / sumx
-            pusta_lista.append(ost)
-        print(pusta_lista)
 
-        w = 2020
 
-        pusta_lista2 = []
-        for i in range(10):
-            str(w)
-            dane_x = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year=k)
-            w = int(w - 1);
-            sumx = dane_x.count()
-            opx = dane_x.aggregate(Sum('spolka_najwyzszy'))
-            op2x = dane_x.aggregate(Sum('spolka_najnizszy'))
-            ost = (opx['spolka_najwyzszy__sum'] - op2x['spolka_najnizszy__sum']) / sumx
-            pusta_lista2.append(ost)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         dane_akt_1 = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year=today.year - 1)
         dane_akt_2 = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year=today.year - 1)
 
-        dane_2020 = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year='2020')
-        dane_2019 = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year='2019')
-        dane_2018 = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year='2018')
 
-        dane_2020_2 = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year='2020')
-        dane_2019_2 = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year='2019')
-        dane_2018_2 = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year='2018')
 
-        sum2020 = dane_2020.count()
-        op2020 = dane_2020.aggregate(Sum('spolka_najwyzszy'))
-        op20202 = dane_2020.aggregate(Sum('spolka_najnizszy'))
-        ost = (op2020['spolka_najwyzszy__sum'] - op20202['spolka_najnizszy__sum']) / sum2020
 
-        sum20201 = dane_2020_2.count()
-        op2020v = dane_2020_2.aggregate(Sum('spolka_najwyzszy'))
-        op22020v = dane_2020_2.aggregate(Sum('spolka_najnizszy'))
-        ost1 = (op2020v['spolka_najwyzszy__sum'] - op22020v['spolka_najnizszy__sum']) / sum20201
+        flaga20 = False
+        flaga19 = False
+        flaga18 = False
 
-        sum1 = dane_2019.count()
-        op1 = dane_2019.aggregate(Sum('spolka_najwyzszy'))
-        op2 = dane_2019.aggregate(Sum('spolka_najnizszy'))
-        k = (op1['spolka_najwyzszy__sum'] - op2['spolka_najnizszy__sum']) / sum1
-        print(k)
+        if Dane_spółek.objects.filter(spolka_name=ver1,spolka_data__year='2020').exists() == True:
+            dane_2020 = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year='2020')
+            flaga20=True
+        if Dane_spółek.objects.filter(spolka_name=ver1, spolka_data__year='2019').exists() == True:
+            dane_2019 = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year='2019')
+            flaga19 = True
+        if Dane_spółek.objects.filter(spolka_name=ver1, spolka_data__year='2018').exists() == True:
+            dane_2018 = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year='2018')
+            flaga18 = True
 
-        sum12 = dane_2019_2.count()
-        op12 = dane_2019_2.aggregate(Sum('spolka_najwyzszy'))
-        op22 = dane_2019_2.aggregate(Sum('spolka_najnizszy'))
-        w = (op12['spolka_najwyzszy__sum'] - op22['spolka_najnizszy__sum']) / sum12
-        print(w)
 
-        sum8 = dane_2018.count()
-        op8 = dane_2018.aggregate(Sum('spolka_najwyzszy'))
-        op81 = dane_2018.aggregate(Sum('spolka_najnizszy'))
-        k8 = (op8['spolka_najwyzszy__sum'] - op81['spolka_najnizszy__sum']) / sum8
+        flaga20s = False
+        flaga19s = False
+        flaga18s = False
+
+        if Dane_spółek.objects.filter(spolka_name=ver2,spolka_data__year='2020').exists() == True:
+            dane_2020_2 = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year='2020')
+            flaga20s=True
+        if Dane_spółek.objects.filter(spolka_name=ver2, spolka_data__year='2019').exists() == True:
+            dane_2019_2 = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year='2019')
+            flaga19s = True
+        if Dane_spółek.objects.filter(spolka_name=ver2, spolka_data__year='2018').exists() == True:
+            dane_2018_2 = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year='2018')
+            flaga18s = True
+
+
+
+
+
+
+        # dane_2020 = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year='2020')
+        # dane_2019 = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year='2019')
+        # dane_2018 = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year='2018')
+
+
+
+
+
+        if(flaga20==True):
+            sum2020 = dane_2020.count()
+            op2020 = dane_2020.aggregate(Sum('spolka_najwyzszy'))
+            op20202 = dane_2020.aggregate(Sum('spolka_najnizszy'))
+            ost = (op2020['spolka_najwyzszy__sum'] - op20202['spolka_najnizszy__sum']) / sum2020
+        else:
+            ost=0
+
+        if (flaga19 == True):
+            sum1 = dane_2019.count()
+            op1 = dane_2019.aggregate(Sum('spolka_najwyzszy'))
+            op2 = dane_2019.aggregate(Sum('spolka_najnizszy'))
+            kk = (op1['spolka_najwyzszy__sum'] - op2['spolka_najnizszy__sum']) / sum1
+
+        else:
+            kk=0
+
+
+        if (flaga18 == True):
+            sum8 = dane_2018.count()
+            op8 = dane_2018.aggregate(Sum('spolka_najwyzszy'))
+            op81 = dane_2018.aggregate(Sum('spolka_najnizszy'))
+            k8 = (op8['spolka_najwyzszy__sum'] - op81['spolka_najnizszy__sum']) / sum8
+
+        else:
+            k8=0
+
+
+
+
+
+
+        # dane_2020_2 = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year='2020')
+        # dane_2019_2 = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year='2019')
+        # dane_2018_2 = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year='2018')
+
+
+
+
+
+
+
+        if(flaga20s==True):
+            sum20201 = dane_2020_2.count()
+            op2020v = dane_2020_2.aggregate(Sum('spolka_najwyzszy'))
+            op22020v = dane_2020_2.aggregate(Sum('spolka_najnizszy'))
+            ost1 = (op2020v['spolka_najwyzszy__sum'] - op22020v['spolka_najnizszy__sum']) / sum20201
+
+        else:
+            ost1=0
+
+        if (flaga19s == True):
+            sum12 = dane_2019_2.count()
+            op12 = dane_2019_2.aggregate(Sum('spolka_najwyzszy'))
+            op22 = dane_2019_2.aggregate(Sum('spolka_najnizszy'))
+            ws = (op12['spolka_najwyzszy__sum'] - op22['spolka_najnizszy__sum']) / sum12
+
+
+        else:
+            ws=0
+
+
+        if (flaga18s == True):
+            sum82 = dane_2018_2.count()
+            op82 = dane_2018_2.aggregate(Sum('spolka_najwyzszy'))
+            op821 = dane_2018_2.aggregate(Sum('spolka_najnizszy'))
+            w8 = (op82['spolka_najwyzszy__sum'] - op821['spolka_najnizszy__sum']) / sum82
+
+        else:
+            w8=0
+
+
+
+
+
+
+
+        #
+        # k = 2020;
+        # pusta_lista = []
+        # for i in range(10):
+        #     str(k)
+        #     dane_x = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year=k)
+        #     k = int(k - 1);
+        #     sumx = dane_x.count()
+        #     opx = dane_x.aggregate(Sum('spolka_najwyzszy'))
+        #     op2x = dane_x.aggregate(Sum('spolka_najnizszy'))
+        #     ost = (opx['spolka_najwyzszy__sum'] - op2x['spolka_najnizszy__sum']) / sumx
+        #     pusta_lista.append(ost)
+        # print(pusta_lista)
+
+
+        k = 2020;
+        pusta_lista = []
+        if ( flaga20 and flaga19 and flaga18 ==True):
+            for i in range(10):
+                str(k)
+                if Dane_spółek.objects.filter(spolka_name=ver1, spolka_data__year=k).exists() == True:
+                    dane_x = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year=k)
+                    k = int(k - 1);
+                    sumx = dane_x.count()
+                    opx = dane_x.aggregate(Sum('spolka_najwyzszy'))
+                    op2x = dane_x.aggregate(Sum('spolka_najnizszy'))
+                    ost = (opx['spolka_najwyzszy__sum'] - op2x['spolka_najnizszy__sum']) / sumx
+                    pusta_lista.append(ost)
+                else:
+                    k = int(k - 1);
+                    ost=0
+                    pusta_lista.append(ost)
+
+
+        else:
+            for i in range(10):
+
+
+                str(k)
+                if Dane_spółek.objects.filter(spolka_name=ver1, spolka_data__year=k).exists() == True:
+                    dane_x = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year=k)
+
+
+                    k = int(k - 1);
+                    sumx = dane_x.count()
+                    opx = dane_x.aggregate(Sum('spolka_najwyzszy'))
+                    op2x = dane_x.aggregate(Sum('spolka_najnizszy'))
+                    ost = (opx['spolka_najwyzszy__sum'] - op2x['spolka_najnizszy__sum']) / sumx
+                    pusta_lista.append(ost)
+                else:
+                    k = int(k - 1);
+                    ost=0
+                    pusta_lista.append(ost)
+
+
+
+
+
+
+
+        w = 2020
+
+        pusta_lista2 = []
+        # for i in range(10):
+        #     str(w)
+        #     dane_x = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year=k)
+        #     w = int(w - 1);
+        #     sumx = dane_x.count()
+        #     opx = dane_x.aggregate(Sum('spolka_najwyzszy'))
+        #     op2x = dane_x.aggregate(Sum('spolka_najnizszy'))
+        #     ost = (opx['spolka_najwyzszy__sum'] - op2x['spolka_najnizszy__sum']) / sumx
+        #     pusta_lista2.append(ost)
+        if ( flaga20s and flaga19s and flaga18s ==True):
+            for i in range(10):
+                str(w)
+                if Dane_spółek.objects.filter(spolka_name=ver2, spolka_data__year=w).exists() == True:
+                    dane_x = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year=w)
+                    w = int(w - 1);
+                    sumx = dane_x.count()
+                    opx = dane_x.aggregate(Sum('spolka_najwyzszy'))
+                    op2x = dane_x.aggregate(Sum('spolka_najnizszy'))
+
+                    ost = (opx['spolka_najwyzszy__sum'] - op2x['spolka_najnizszy__sum']) / sumx
+                    pusta_lista2.append(ost)
+                else:
+                    w = int(w - 1);
+                    ost=0
+                    pusta_lista2.append(ost)
+
+
+        else:
+            for i in range(10):
+
+
+                str(w)
+                if Dane_spółek.objects.filter(spolka_name=ver2, spolka_data__year=w).exists() == True:
+                    dane_x = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year=w)
+
+
+                    w = int(w - 1);
+                    sumx = dane_x.count()
+                    opx = dane_x.aggregate(Sum('spolka_najwyzszy'))
+                    op2x = dane_x.aggregate(Sum('spolka_najnizszy'))
+                    ost = (opx['spolka_najwyzszy__sum'] - op2x['spolka_najnizszy__sum']) / sumx
+                    pusta_lista2.append(ost)
+                else:
+                    w = int(w - 1);
+                    ost=0
+                    pusta_lista2.append(ost)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        # sum2020 = dane_2020.count()
+        # op2020 = dane_2020.aggregate(Sum('spolka_najwyzszy'))
+        # op20202 = dane_2020.aggregate(Sum('spolka_najnizszy'))
+        # ost = (op2020['spolka_najwyzszy__sum'] - op20202['spolka_najnizszy__sum']) / sum2020
+
+
+        #
+        # sum1 = dane_2019.count()
+        # op1 = dane_2019.aggregate(Sum('spolka_najwyzszy'))
+        # op2 = dane_2019.aggregate(Sum('spolka_najnizszy'))
+        # k = (op1['spolka_najwyzszy__sum'] - op2['spolka_najnizszy__sum']) / sum1
+        # print(k)
+
+        # sum12 = dane_2019_2.count()
+        # op12 = dane_2019_2.aggregate(Sum('spolka_najwyzszy'))
+        # op22 = dane_2019_2.aggregate(Sum('spolka_najnizszy'))
+        # w = (op12['spolka_najwyzszy__sum'] - op22['spolka_najnizszy__sum']) / sum12
+        # print(w)
+
+        # sum8 = dane_2018.count()
+        # op8 = dane_2018.aggregate(Sum('spolka_najwyzszy'))
+        # op81 = dane_2018.aggregate(Sum('spolka_najnizszy'))
+        # k8 = (op8['spolka_najwyzszy__sum'] - op81['spolka_najnizszy__sum']) / sum8
+        # print(k8)
+        #
+        # sum82 = dane_2018_2.count()
+        # op82 = dane_2018_2.aggregate(Sum('spolka_najwyzszy'))
+        # op821 = dane_2018_2.aggregate(Sum('spolka_najnizszy'))
+        # w8 = (op82['spolka_najwyzszy__sum'] - op821['spolka_najnizszy__sum']) / sum82
+        # print(w8)
+        print(kk)
+        print(ws)
         print(k8)
-
-        sum82 = dane_2018_2.count()
-        op82 = dane_2018_2.aggregate(Sum('spolka_najwyzszy'))
-        op821 = dane_2018_2.aggregate(Sum('spolka_najnizszy'))
-        w8 = (op82['spolka_najwyzszy__sum'] - op821['spolka_najnizszy__sum']) / sum82
         print(w8)
+        print(ost)
+        print(ost1)
+
+
 
         dane2 = {
             'dane_1': dane_1,
@@ -284,8 +527,8 @@ def odp2(request):
             'dane_2020_2': dane_2020_2,
             'dane_2019_2': dane_2019_2,
             'dane_2018_2': dane_2018_2,
-            'zm': k,
-            'zm2': w,
+            'zm': kk,
+            'zm2': ws,
             'zm8': k8,
             'zm28': w8,
             'ww': ost,
