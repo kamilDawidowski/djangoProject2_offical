@@ -3,7 +3,7 @@ import os
 import urllib
 
 from django.core.files.storage import FileSystemStorage
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 import pandas as pd
 from .models import Nazwy_spółek, Dane_spółek, Popular
@@ -13,10 +13,50 @@ from django.db.models import Sum
 
 
 # Create your views here.
+def likeDane(request):
+    if request.method == "POST":
+        name_spolka_do_analizy_ver1 = request.POST["title"]
+        k = str(name_spolka_do_analizy_ver1)
+        print("Tworzymy obiekt")
+        w = Nazwy_spółek.objects.filter(spolka_data_skrot=k)
+        h=w[0]
+        print(h)
+        Popular.objects.create(popular_name=h, popular_skrot=k)
+        # z=str(w)
+        # print(z)
+        vote_count = Popular.objects.count()
+
+        if (vote_count <= 3):
+            print("Przepełenienie brak ")
+        else:
+            k = 0
+
+            for i in Popular.objects.all():
+                if k == 0:
+                    print("too")
+                    print(i)
+                    # i.delete();
+                    k = k + 1
+                    print("Obiket został usunięty")
+        print(Popular.objects.all())
+
+        # z = w['spolka_data_name']
+        # str(z)
+        # print(z)
+        # nazwa=w.spolka_data_name
+        # print(nazwa)
+        # Popular.objects.create(popular_name="b", popular_skrot="d")
+
+        return redirect(menu)
+    else:
+        return render(request, "result.html")
+
 
 def menu(request):
     # pobieranie_gieldy()
     # Dodaj petle sprawdz czy jest
+    # if request.method=="POST":
+    #     print("dddd")
 
     all_Data = []
     # download_data_name(all_Data)
@@ -28,17 +68,21 @@ def menu(request):
                                        spolka_data_skrot=data['Symbol']).exists() == False:
             Nazwy_spółek.objects.create(spolka_data_name=data['Nazwa'], spolka_data_skrot=data['Symbol'])
     baza = Nazwy_spółek.objects.all()
+    popular = Popular.objects.all()
 
-    vote_count = Popular.objects.count()
-    if (vote_count < 2):
-        Popular.objects.create(popular_name="dddd", popular_skrot="ddd")
+    listaPopular = []
+    listaPopular.append(Popular.objects.all())
+    # print(Popular.objects.all()[:1])
+
+
 
     top = Popular.objects.all()
 
-    print(vote_count)
+
 
     baza = {'data': baza,
             'top': top}
+    print("ggg")
 
     return render(request, "Strona_2.html", baza)
 
@@ -263,7 +307,9 @@ def odp2(request):
 
 def odp(request):
     name_spolka_do_analizy = request.GET["spółka_do_analizy"]
+
     name = str(szukanie(name_spolka_do_analizy))
+    ostatnie = name
     www = 'https://stooq.pl/q/d/l/?s=' + name + '&i=d'
     odp = download(www, name)
 

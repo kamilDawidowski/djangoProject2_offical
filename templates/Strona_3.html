@@ -43,9 +43,15 @@
  <a class="btn btn-primary" href="/main/" role="button" style="width: 100%">Powrót do menu</a>
 <br>
 <br>
-<form action="menu">
-<input class="btn btn-primary" type="submit" value="Dodaj spółke do ulubionych">
+
+
+<form action='likeDane'  method='post'>
+    {% csrf_token %}
+
+<button type='submit' > Dodaj spółke do ulubionych </button>
+ <input type="hidden" name="title" value="{{ nazwa }}">
 </form>
+
         <br>
         <br>
 
