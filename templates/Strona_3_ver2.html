@@ -151,7 +151,7 @@
                         <h6 class="card-subtitle mb-2 text-muted">Odchylenie standardowe to jedna z miar zmienności
                             zbioru. Służy ono do estymowania o ile średnio elementy zbioru różnią się od średniej tego
                             zbioru.</h6>
-                        <p class="card-text">Odchylenie standardowe dla :{{ nazwa }}<br>
+                        <p class="card-text">Odchylenie standardowe dla :{{ nazwa_1 }}<br>
                         <h6> Odchylenie standardowe dla akcji : {{ Sx1 }}<br>
                             {#                            Odchylenie standardowe dla czasu : {{ Sy1 }}#}
                         </h6></p>
@@ -197,7 +197,7 @@
                         <h6 class="card-subtitle mb-2 text-muted">Odchylenie standardowe to jedna z miar zmienności
                             zbioru. Służy ono do estymowania o ile średnio elementy zbioru różnią się od średniej tego
                             zbioru.</h6>
-                        <p class="card-text">Odchylenie standardowe dla :{{ nazwa }}<br><h6>
+                        <p class="card-text">Odchylenie standardowe dla :{{ nazwa_2 }}<br><h6>
                         Odchylenie standardowe dla akcji : {{ Sx2 }}<br>
                         {#                        Odchylenie standardowe dla czasu : {{ Sy2 }}#}
                     </h6></p>
@@ -236,7 +236,7 @@
                 </canvas>
                 <div class="card-body">
                     <h5 class="card-title">{{ nazwa_1 }}</h5>
-                    <p class="card-text">Wykres obrazuje ile sesji kończyło się odatnio na giełdzie</p>
+                    <p class="card-text">Wykres obrazuje dodatnie sesje na giełdzie dla poszczególnej spółki</p>
 
                 </div>
             </div>
@@ -249,7 +249,7 @@
                 </canvas>
                 <div class="card-body">
                     <h5 class="card-title">{{ nazwa_2 }}</h5>
-                    <p class="card-text">Wykres obrazuje ile sesji kończyło się dodatnio na giełdzie</p>
+                    <p class="card-text">Wykres obrazuje dodatnie sesje na giełdzie dla poszczególnej spółki</p>
 
                 </div>
             </div>
@@ -270,7 +270,7 @@
 
             <div class="card">
                 <div class="card-body" style="background-color: rgba(255, 0, 0, 0.3);">
-                    <h3 style="text-align:center; ">Najwyższe kursy spólek aktualnie </h3>
+                    <h3 style="text-align:center; ">Najwyższe kursy akcji dla spólek aktualnie </h3>
 
                 </div>
             </div>
@@ -343,7 +343,7 @@
                     data: {
                         labels: [{% for item in dane_1 %}'{{ item.spolka_data.year }}',{% endfor %}],
                         datasets: [{
-                            label: 'Kurs Najwyzszy dla {{ nazwa_1 }} ',
+                            label: 'Najwyższy kurs dla : {{ nazwa_1 }} ',
                             backgroundColor: 'rgb(255, 99, 132)',
                             borderColor: 'rgb(255, 99, 132)',
                             data: [{% for item in dane_1 %}{{ item.spolka_najwyzszy }}, {% endfor %}]
@@ -367,7 +367,7 @@
                     data: {
                         labels: [{% for item in dane_2 %}'{{ item.spolka_data.year }}',{% endfor %}],
                         datasets: [{
-                            label: 'Kurs Najwyzszy dla {{ nazwa_2 }} ',
+                            label: 'Najwyższy kurs dla :  {{ nazwa_2 }} ',
                             backgroundColor: 'rgb(29,9,208)',
                             borderColor: 'rgb(29,9,208)',
                             data: [{% for item in dane_2 %}{{ item.spolka_najwyzszy }}, {% endfor %}]
@@ -512,7 +512,7 @@
                         legend: {display: false},
                         title: {
                             display: true,
-                            text: 'Zobrazowanie Odchylenia standardowego cen akcji'
+                            text: 'Odchylenie standarowe cen akcji'
                         }
                     }
                 });
@@ -537,7 +537,7 @@
                     options: {
                         title: {
                             display: true,
-                            text: 'Wzrost  cen akcji dla 3 najblizszych lat'
+                            text: 'Wzrost  cen akcji dla okresu trzech lat'
                         }
                     }
                 });
@@ -555,13 +555,13 @@
                     data: {
                         labels: [{% for item in dane_akt_1 %}'{{ item.spolka_data.month }}',{% endfor %}],
                         datasets: [{
-                            label: 'Kurs Najwyzszy dla {{ nazwa_1 }} ',
+                            label: 'Kurs najwyższy dla {{ nazwa_1 }} ',
 
                             borderColor: 'rgb(29,9,208)',
                             data: [{% for item in dane_akt_1 %}{{ item.spolka_najwyzszy }}, {% endfor %}]
                         },
                             {
-                                label: 'Kurs Najwyzszy dla {{ nazwa_1 }} ',
+                                label: 'Kurs najwyższy dla {{ nazwa_2 }} ',
 
                                 borderColor: 'rgb(102,208,9)',
                                 data: [{% for item in dane_akt_2 %}{{ item.spolka_najwyzszy }}, {% endfor %}]

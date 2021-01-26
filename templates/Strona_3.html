@@ -131,7 +131,7 @@
 
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title">Odchylenia standardowego z próby</h5>
+                        <h5 class="card-title">Odchylenia standardowe z próby</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Odchylenie standardowe to jedna z miar zmienności
                             zbioru. Służy ono do estymowania o ile średnio elementy zbioru różnią się od średniej tego
                             zbioru.</h6>
@@ -403,7 +403,7 @@ new Chart(document.getElementById("pie-chart"), {
         data: {
             labels: [{% for item in dane %}'{{ item.spolka_data.year }}',{% endfor %}],
             datasets: [{
-                label: 'Kurs zamkniecia ',
+                label: 'Kurs zamknięcia ',
                 backgroundColor: 'rgb(250,237,1)',
                 borderColor: 'rgb(250,237,1)',
                 data: [{% for item in dane %}{{ item.spolka_zamkniecie }},{% endfor %}]

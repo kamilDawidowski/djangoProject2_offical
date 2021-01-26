@@ -10,16 +10,16 @@ from .models import Nazwy_spółek, Dane_spółek, Popular
 from math import sqrt
 from datetime import date
 from django.db.models import Sum
-
+from docxtpl import DocxTemplate
 
 # Create your views here.
 def likeDane(request):
     if request.method == "POST":
         name_spolka_do_analizy_ver1 = request.POST["title"]
-        k = str(name_spolka_do_analizy_ver1)
+        skrot = str(name_spolka_do_analizy_ver1)
         print("Tworzymy obiekt")
-        w = Nazwy_spółek.objects.filter(spolka_data_skrot=k)
-        h=w[0]
+        w = Nazwy_spółek.objects.filter(spolka_data_skrot=skrot)
+        h = w[0]
         print(h)
 
         vote_count = Popular.objects.count()
@@ -30,19 +30,17 @@ def likeDane(request):
 
             for i in Popular.objects.all():
                 if k == 0:
-                    print("too")
-                    print(i)
                     print(i)
                     i.delete();
                     k = k + 1
                     print("Obiket został usunięty")
 
 
-        Popular.objects.create(popular_name=h, popular_skrot=k)
+
+        Popular.objects.create(popular_name=h, popular_skrot=skrot)
         # z=str(w)
         # print(z)
         # vote_count = Popular.objects.count()
-
 
         print(Popular.objects.all())
 
@@ -53,9 +51,18 @@ def likeDane(request):
         # print(nazwa)
         # Popular.objects.create(popular_name="b", popular_skrot="d")
 
+
+
         return redirect(menu)
+
+
+
+
     else:
-        return render(request, "result.html")
+        baza = Nazwy_spółek.objects.all()
+        baza1 = {'data': baza,
+                 }
+        return render(request, "result.html",baza1)
 
 
 def menu(request):
@@ -80,15 +87,10 @@ def menu(request):
     listaPopular.append(Popular.objects.all())
     # print(Popular.objects.all()[:1])
 
-
-
     top = Popular.objects.all()
-
-
 
     baza = {'data': baza,
             'top': top}
-    print("ggg")
 
     return render(request, "Strona_2.html", baza)
 
@@ -200,39 +202,16 @@ def odp2(request):
 
         today = date.today()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         dane_akt_1 = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year=today.year - 1)
         dane_akt_2 = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year=today.year - 1)
-
-
-
 
         flaga20 = False
         flaga19 = False
         flaga18 = False
 
-        if Dane_spółek.objects.filter(spolka_name=ver1,spolka_data__year='2020').exists() == True:
+        if Dane_spółek.objects.filter(spolka_name=ver1, spolka_data__year='2020').exists() == True:
             dane_2020 = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year='2020')
-            flaga20=True
+            flaga20 = True
         if Dane_spółek.objects.filter(spolka_name=ver1, spolka_data__year='2019').exists() == True:
             dane_2019 = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year='2019')
             flaga19 = True
@@ -240,14 +219,13 @@ def odp2(request):
             dane_2018 = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year='2018')
             flaga18 = True
 
-
         flaga20s = False
         flaga19s = False
         flaga18s = False
 
-        if Dane_spółek.objects.filter(spolka_name=ver2,spolka_data__year='2020').exists() == True:
+        if Dane_spółek.objects.filter(spolka_name=ver2, spolka_data__year='2020').exists() == True:
             dane_2020_2 = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year='2020')
-            flaga20s=True
+            flaga20s = True
         if Dane_spółek.objects.filter(spolka_name=ver2, spolka_data__year='2019').exists() == True:
             dane_2019_2 = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year='2019')
             flaga19s = True
@@ -255,26 +233,17 @@ def odp2(request):
             dane_2018_2 = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year='2018')
             flaga18s = True
 
-
-
-
-
-
         # dane_2020 = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year='2020')
         # dane_2019 = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year='2019')
         # dane_2018 = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year='2018')
 
-
-
-
-
-        if(flaga20==True):
+        if (flaga20 == True):
             sum2020 = dane_2020.count()
             op2020 = dane_2020.aggregate(Sum('spolka_najwyzszy'))
             op20202 = dane_2020.aggregate(Sum('spolka_najnizszy'))
             ost = (op2020['spolka_najwyzszy__sum'] - op20202['spolka_najnizszy__sum']) / sum2020
         else:
-            ost=0
+            ost = 0
 
         if (flaga19 == True):
             sum1 = dane_2019.count()
@@ -283,8 +252,7 @@ def odp2(request):
             kk = (op1['spolka_najwyzszy__sum'] - op2['spolka_najnizszy__sum']) / sum1
 
         else:
-            kk=0
-
+            kk = 0
 
         if (flaga18 == True):
             sum8 = dane_2018.count()
@@ -293,31 +261,20 @@ def odp2(request):
             k8 = (op8['spolka_najwyzszy__sum'] - op81['spolka_najnizszy__sum']) / sum8
 
         else:
-            k8=0
-
-
-
-
-
+            k8 = 0
 
         # dane_2020_2 = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year='2020')
         # dane_2019_2 = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year='2019')
         # dane_2018_2 = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year='2018')
 
-
-
-
-
-
-
-        if(flaga20s==True):
+        if (flaga20s == True):
             sum20201 = dane_2020_2.count()
             op2020v = dane_2020_2.aggregate(Sum('spolka_najwyzszy'))
             op22020v = dane_2020_2.aggregate(Sum('spolka_najnizszy'))
             ost1 = (op2020v['spolka_najwyzszy__sum'] - op22020v['spolka_najnizszy__sum']) / sum20201
 
         else:
-            ost1=0
+            ost1 = 0
 
         if (flaga19s == True):
             sum12 = dane_2019_2.count()
@@ -327,8 +284,7 @@ def odp2(request):
 
 
         else:
-            ws=0
-
+            ws = 0
 
         if (flaga18s == True):
             sum82 = dane_2018_2.count()
@@ -337,13 +293,7 @@ def odp2(request):
             w8 = (op82['spolka_najwyzszy__sum'] - op821['spolka_najnizszy__sum']) / sum82
 
         else:
-            w8=0
-
-
-
-
-
-
+            w8 = 0
 
         #
         # k = 2020;
@@ -359,10 +309,9 @@ def odp2(request):
         #     pusta_lista.append(ost)
         # print(pusta_lista)
 
-
         k = 2020;
         pusta_lista = []
-        if ( flaga20 and flaga19 and flaga18 ==True):
+        if (flaga20 and flaga19 and flaga18 == True):
             for i in range(10):
                 str(k)
                 if Dane_spółek.objects.filter(spolka_name=ver1, spolka_data__year=k).exists() == True:
@@ -375,18 +324,16 @@ def odp2(request):
                     pusta_lista.append(ost)
                 else:
                     k = int(k - 1);
-                    ost=0
+                    ost = 0
                     pusta_lista.append(ost)
 
 
         else:
             for i in range(10):
 
-
                 str(k)
                 if Dane_spółek.objects.filter(spolka_name=ver1, spolka_data__year=k).exists() == True:
                     dane_x = Dane_spółek.objects.all().filter(spolka_name=ver1, spolka_data__year=k)
-
 
                     k = int(k - 1);
                     sumx = dane_x.count()
@@ -396,14 +343,8 @@ def odp2(request):
                     pusta_lista.append(ost)
                 else:
                     k = int(k - 1);
-                    ost=0
+                    ost = 0
                     pusta_lista.append(ost)
-
-
-
-
-
-
 
         w = 2020
 
@@ -417,7 +358,7 @@ def odp2(request):
         #     op2x = dane_x.aggregate(Sum('spolka_najnizszy'))
         #     ost = (opx['spolka_najwyzszy__sum'] - op2x['spolka_najnizszy__sum']) / sumx
         #     pusta_lista2.append(ost)
-        if ( flaga20s and flaga19s and flaga18s ==True):
+        if (flaga20s and flaga19s and flaga18s == True):
             for i in range(10):
                 str(w)
                 if Dane_spółek.objects.filter(spolka_name=ver2, spolka_data__year=w).exists() == True:
@@ -431,18 +372,16 @@ def odp2(request):
                     pusta_lista2.append(ost)
                 else:
                     w = int(w - 1);
-                    ost=0
+                    ost = 0
                     pusta_lista2.append(ost)
 
 
         else:
             for i in range(10):
 
-
                 str(w)
                 if Dane_spółek.objects.filter(spolka_name=ver2, spolka_data__year=w).exists() == True:
                     dane_x = Dane_spółek.objects.all().filter(spolka_name=ver2, spolka_data__year=w)
-
 
                     w = int(w - 1);
                     sumx = dane_x.count()
@@ -452,28 +391,13 @@ def odp2(request):
                     pusta_lista2.append(ost)
                 else:
                     w = int(w - 1);
-                    ost=0
+                    ost = 0
                     pusta_lista2.append(ost)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         # sum2020 = dane_2020.count()
         # op2020 = dane_2020.aggregate(Sum('spolka_najwyzszy'))
         # op20202 = dane_2020.aggregate(Sum('spolka_najnizszy'))
         # ost = (op2020['spolka_najwyzszy__sum'] - op20202['spolka_najnizszy__sum']) / sum2020
-
 
         #
         # sum1 = dane_2019.count()
@@ -505,10 +429,15 @@ def odp2(request):
         print(w8)
         print(ost)
         print(ost1)
-
+        listaroczna=[]
+        index=2020
+        for i in range (10):
+            listaroczna.append(index)
+            index=2020-(i+1)
 
 
         dane2 = {
+            'lista':listaroczna,
             'dane_1': dane_1,
             'dane_2': dane_2,
             'nazwa_1': name1,
@@ -540,6 +469,9 @@ def odp2(request):
             'dane_akt_2': dane_akt_2,
 
         }
+        doc = DocxTemplate("Docx/my_word_template.docx")
+        doc.render(dane2)
+        doc.save("Docx/generated_doc_"+name1+"_vs_"+name2+"_report.docx")
 
         # dane = Dane_spółek.objects.all()
 
@@ -604,13 +536,13 @@ def odp(request):
                                            spolka_data=data["b'Data"])
 
         dane = Dane_spółek.objects.all().filter(spolka_name=nazwa)
-        flaga20=False
-        flaga19=False
-        flaga18=False
+        flaga20 = False
+        flaga19 = False
+        flaga18 = False
 
-        if Dane_spółek.objects.filter(spolka_name=nazwa,spolka_data__year='2020').exists() == True:
+        if Dane_spółek.objects.filter(spolka_name=nazwa, spolka_data__year='2020').exists() == True:
             dane_2020 = Dane_spółek.objects.all().filter(spolka_name=nazwa, spolka_data__year='2020')
-            flaga20=True
+            flaga20 = True
         if Dane_spółek.objects.filter(spolka_name=nazwa, spolka_data__year='2019').exists() == True:
             dane_2019 = Dane_spółek.objects.all().filter(spolka_name=nazwa, spolka_data__year='2019')
             flaga19 = True
@@ -618,17 +550,9 @@ def odp(request):
             dane_2018 = Dane_spółek.objects.all().filter(spolka_name=nazwa, spolka_data__year='2018')
             flaga18 = True
 
-
-
-
-
-
-
-
-
         k = 2020;
         pusta_lista = []
-        if ( flaga20 and flaga19 and flaga18 ==True):
+        if (flaga20 and flaga19 and flaga18 == True):
             for i in range(10):
                 str(k)
                 if Dane_spółek.objects.filter(spolka_name=nazwa, spolka_data__year=k).exists() == True:
@@ -641,18 +565,16 @@ def odp(request):
                     pusta_lista.append(ost)
                 else:
                     k = int(k - 1);
-                    ost=0
+                    ost = 0
                     pusta_lista.append(ost)
 
 
         else:
             for i in range(10):
 
-
                 str(k)
                 if Dane_spółek.objects.filter(spolka_name=nazwa, spolka_data__year=k).exists() == True:
                     dane_x = Dane_spółek.objects.all().filter(spolka_name=nazwa, spolka_data__year=k)
-
 
                     k = int(k - 1);
                     sumx = dane_x.count()
@@ -662,28 +584,16 @@ def odp(request):
                     pusta_lista.append(ost)
                 else:
                     k = int(k - 1);
-                    ost=0
+                    ost = 0
                     pusta_lista.append(ost)
 
-
-
-
-
-
-
-
-
-
-
-
-        print(pusta_lista)
-        if(flaga20==True):
+        if (flaga20 == True):
             sum2020 = dane_2020.count()
             op2020 = dane_2020.aggregate(Sum('spolka_najwyzszy'))
             op20202 = dane_2020.aggregate(Sum('spolka_najnizszy'))
             ost = (op2020['spolka_najwyzszy__sum'] - op20202['spolka_najnizszy__sum']) / sum2020
         else:
-            ost=0
+            ost = 0
 
         if (flaga19 == True):
             sum1 = dane_2019.count()
@@ -692,8 +602,7 @@ def odp(request):
             k = (op1['spolka_najwyzszy__sum'] - op2['spolka_najnizszy__sum']) / sum1
             print(k)
         else:
-            k=0
-
+            k = 0
 
         if (flaga18 == True):
             sum8 = dane_2018.count()
@@ -702,13 +611,7 @@ def odp(request):
             k8 = (op8['spolka_najwyzszy__sum'] - op81['spolka_najnizszy__sum']) / sum8
             print(k8)
         else:
-            k8=0
-
-
-
-
-
-
+            k8 = 0
 
         Mx1 = srednia(zam['Otwarcie'])
         Sx1 = odchylenie(zam['Otwarcie'], Mx1)
@@ -724,6 +627,17 @@ def odp(request):
             'lista': pusta_lista,
 
         }
+        # doc = DocxTemplate("Docx/my_word_template.docx")
+        # baza = Nazwy_spółek.objects.all()
+        # slowo="ssssss"
+        # context = {'name': name,
+        #            'srednia':Mx1,
+        #            'odchylenie': Sx1,
+        #            'dane': dane,
+        #          }
+        # doc.render(context)
+        # doc.save("Docx/generated_"+name+"_doc_report.docx")
+
 
         # dane = Dane_spółek.objects.all()
 
