@@ -58,7 +58,6 @@ def dowSp(request):
         temp=k.iloc[i]
         all_Data.append(dict(temp))
         # all_Data.append(dict[temp])
-
     for i in range(a.shape[0]):
         temp=a.iloc[i]
         all_Data.append(dict(temp))
@@ -71,7 +70,6 @@ def dowSp(request):
         temp=c.iloc[i]
         all_Data.append(dict(temp))
         # all_Data.append(dict[temp])
-
 
     for i in range(d.shape[0]):
         temp=d.iloc[i]
